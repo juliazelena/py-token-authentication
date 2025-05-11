@@ -2,11 +2,13 @@ from datetime import datetime
 
 from django.db.models import F, Count
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.mixins import CreateModelMixin, ListModelMixin, \
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
     RetrieveModelMixin
+)
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 
 from cinema.models import Genre, Actor, CinemaHall, Movie, MovieSession, Order
 
@@ -140,7 +142,7 @@ class OrderViewSet(CreateModelMixin, ListModelMixin, viewsets.GenericViewSet):
 
     def get_permissions(self):
         if self.action == "create":
-            return (IsAuthenticated(),)
+            return [IsAuthenticated()]
         return super().get_permissions()
 
     def get_queryset(self):
